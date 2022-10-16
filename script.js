@@ -1,7 +1,18 @@
+const clearList = () => {
+    const currencyList = document.getElementById('currency-list');
+    currencyList.innerHTML = '';
+}
+
+const renderBaseCurrencyTitle = (base) => {
+    const baseTilte = document.getElementById('title-base');
+    baseTilte.innerHTML = `Valores referentes a: 1 ${base}`;
+}
+
 const renderRateItemList = (currency, value) => {
     const currencyList = document.getElementById('currency-list');
+    const fixedValue = value.toFixed(2);
     const li = document.createElement('li');
-    li.innerText = `${currency}: ${value}`
+    li.innerHTML = `<strong>${currency}:</strong> ${fixedValue}`
     currencyList.appendChild(li)
 }
 
@@ -18,7 +29,10 @@ const handleSearchEvent = async () => {
     const currencyValue = currencyElement.value;
     
     const object = await fetchExchangeRates(currencyValue);
+
+    clearList();
     renderRates(object.rates)
+    renderBaseCurrencyTitle(object.base)
 }
 
 const setupHtmlElements = () => {
